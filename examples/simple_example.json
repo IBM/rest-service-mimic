@@ -1,0 +1,59 @@
+[
+    {
+        "path": "/hello",
+        "methods": ["POST"],
+        "headers": {
+            "Is-Test": "(ye[s]?[ah]?|no)"
+        },
+        "response": {
+            "status_code": 201,
+            "payload": {
+                "message": "this is a test"
+            }
+        }
+    },
+    {
+        "path": "/goodbye/{id:[0-9]+}",
+        "methods": ["GET"],
+        "response": {
+            "status_code": 422,
+            "payload": {
+                "message": "this is a test",
+                "more_complex": {
+                    "is_it": "yes"
+                }
+            }
+        }
+    },
+    {
+        "path": "/test/payload",
+        "methods": ["POST"],
+        "response": {
+            "status_code": 200,
+            "payload": {
+                "greeting": "hello",
+                "name": "{{ .Request.name }}"
+            }
+        }
+    },
+    {
+        "path": "/write",
+        "methods": ["POST"],
+        "cache_key": "previous",
+        "response": {
+            "status_code": 201
+        }
+    },
+    {
+        "path": "/read",
+        "methods": ["GET"],
+        "response": {
+            "status_code": 200,
+            "payload": {
+                "greeting": "hello",
+                "name": "{{ .Cache.previous.name }}"
+            }
+        }
+    }
+
+]

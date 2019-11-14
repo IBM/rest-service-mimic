@@ -1,0 +1,11 @@
+FROM golang:1.12
+WORKDIR /go/src/rest-service-mimic/
+COPY . /go/src/rest-service-mimic
+ENV GO111MODULE="on"
+ENV CGO_ENABLED=0
+ENV GOOS=linux
+RUN go build -o rest-service-mimic .
+
+FROM scratch
+COPY --from=0 /go/src/rest-service-mimic/rest-service-mimic .
+ENTRYPOINT ["./rest-service-mimic"]
