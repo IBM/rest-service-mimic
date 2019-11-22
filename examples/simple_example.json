@@ -54,6 +54,16 @@
                 "name": "{{ .Cache.previous.name }}"
             }
         }
+    },
+    {
+        "path": "/health",
+        "methods": ["GET"],
+        "response": {
+            "proxy": {
+                "host": "https://iam.cloud.ibm.com",
+                "skip_insecure_verify": true
+            }
+        }
     }
 
 ]

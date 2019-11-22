@@ -10,15 +10,16 @@ import (
 )
 
 func FallthroughHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("Received **UNMAPPED** request [%s] %s -H %s \n", r.Method, r.RequestURI, r.Header)
 	w.WriteHeader(http.StatusNotFound)
 }
 
 func main() {
-	jsonPathPtr := flag.String("config", "config.json", "Path to the json mimic config")
+	jsonPathPtr := flag.String("config", "config.json", "Path to th json mimic config")
 	portPtr := flag.Int("port", 8000, "Port to listen on")
 	flag.Parse()
 
-	fmt.Println("Starting the Rest Service Mimic")
+	fmt.Println("Starting the Four Legged Mimic")
 
 	configParser := CreateRouteConfigParser()
 	metaroutes, err := configParser.Parse(*jsonPathPtr)
@@ -33,7 +34,8 @@ func main() {
 		applyMetaroute(r, metaroute)
 	}
 
-	r.HandleFunc("/", FallthroughHandler)
+	//r.HandleFunc("/", FallthroughHandler)
+	r.NotFoundHandler = http.HandlerFunc(FallthroughHandler)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *portPtr), r))
 }
 

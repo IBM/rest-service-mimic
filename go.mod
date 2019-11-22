@@ -1,4 +1,4 @@
-module mod
+module rest-service-mimic
 
 go 1.12
 
